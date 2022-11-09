@@ -8,6 +8,6 @@ node{
       sh "${mvnHome}/bin/mvn package"
    }
    stage('Email Notification'){
-      emailext attachLog: true, body: 'this is my test', compressLog: true, recipientProviders: [buildUser()], subject: 'hi test', to: 'sriban1805@gmail.com'
+      emailext body: 'test', subject: 'hi', to: 'sriban1805@gmail.com'
    }
 }
