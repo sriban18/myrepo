@@ -1,4 +1,10 @@
 node{
+
+   stage('SCM Checkout'){
+     git 'https://github.com/sriban18/myrepo.git'
+   }
+
+ master
    stage('Compile-Package'){
 
       def mvnHome =  tool name: 'maven3', type: 'maven'   
@@ -14,6 +20,10 @@ node{
    stage('Build Docker Imager'){
    sh 'docker build -t saidamo/myweb:0.0.2 .'
    }
+
+   stage('Email Notification'){
+      emailext body: 'test', subject: 'hi', to: 'sriban1805@gmail.com'
+
    stage('Docker Image Push'){
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
    sh "docker login -u saidamo -p ${dockerPassword}"
@@ -24,6 +34,7 @@ node{
    sh "docker login -u admin -p admin123 3.109.144.225:8083"
    sh "docker tag saidamo/myweb:0.0.2 3.109.144.225:8083/damo:1.0.0"
    sh 'docker push 3.109.144.225:8083/damo:1.0.0'
+
    }
 
    stage('Remove Previous Container'){
